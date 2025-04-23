@@ -172,7 +172,7 @@ class DeepONet:
 
         model = self.train()
         predictions = np.zeros((self.n, self.prediction_horizon_steps), dtype = np.float32)      
-        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is not None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
 
         if self.lag > 0:
             init_data = self.init_data[:,-self.lag:].T.ravel().astype(np.float32)
