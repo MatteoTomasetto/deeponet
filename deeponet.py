@@ -1,7 +1,8 @@
 import numpy as np
 import torch
-import deepxde as dde
 from sklearn.preprocessing import StandardScaler
+import deepxde as dde
+dde.backend.set_default_backend("pytorch")
 
 class DeepONet:
     """
@@ -54,7 +55,7 @@ class DeepONet:
 
         self.pair_id = pair_id
 
-        if self.pair_id == 2 or self.pair_id == 3:
+        if self.pair_id == 2 or self.pair_id == 4:
             print("Reconstruction task: 'lag' parameter set equal to 0 since burn-in data not needed")
             self.lag = 0
         else:

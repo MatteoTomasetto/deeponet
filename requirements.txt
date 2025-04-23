@@ -1,4 +1,7 @@
-deepxde
+# conda create -n deepxde
+# conda activate deepxde
+# conda install -c conda-forge pytorch deepxde
 numpy
 torch
 sklearn
+deepxde
