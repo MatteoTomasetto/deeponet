@@ -27,12 +27,11 @@ class DeepONet:
         n (int): Number of spatial points.
         m (int): Number of time points.
         x (np.ndarray): Spatial coordinates.
-        t (np.ndarray): Time coordinates.
-        
+        delta_t (float): Timestep length
+
         init_data (np.ndarray): Burn-in data for prediction.
         M (int): Number of past timesteps to consider in prediction.
 
-        prediction_timesteps (np.ndarray): Timesteps to predict.
         prediction_horizon_steps (int): Number of timesteps to predict.
 
         branch_input_dimension (int): Input dimension for the branch network.
@@ -42,7 +41,7 @@ class DeepONet:
         scaler (StandardScaler): Scaler for output data.
     """
 
-    def __init__(self, pair_id, config, train_data, init_data = None, prediction_timesteps = None):
+    def __init__(self, pair_id, config, train_data, init_data = None, prediction_timesteps = None, delta_t = None):
         """
         Initialize the DeepONet model with the provided configuration.
 
@@ -51,6 +50,10 @@ class DeepONet:
             train_data (np.ndarray): Training data.
             init_data (np.ndarray): Burn-in data for prediction.
             prediction_timesteps (np.ndarray): Prediction timesteps for the model.
+            delta_t (float): Timestep length
+    
+        Raises:
+            ValueError: If lag parameter is invalid.
         """     
 
         self.pair_id = pair_id
@@ -78,7 +81,7 @@ class DeepONet:
         self.n = train_data[0].shape[0]
         self.m = train_data[0].shape[1]
         self.x = np.arange(0, self.n).astype(np.float32) ## TODO: Fix with domain info
-        #self.dt = 
+        self.delta_t = delta_t
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
@@ -87,8 +90,7 @@ class DeepONet:
         if self.lag > self.M:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of burn-in timesteps ({self.M}).")
         
-        self.prediction_timesteps = prediction_timesteps if prediction_timesteps is not None else self.m      
-        self.prediction_horizon_steps = len(self.prediction_timesteps)
+        self.prediction_horizon_steps = len(self.prediction_timesteps) if prediction_timesteps is not None else self.m
         
         self.branch_input_dimension = max(self.lag, 1) * self.n
         self.branch = [self.branch_input_dimension] + [self.branch_neurons] * self.branch_layers
@@ -100,13 +102,18 @@ class DeepONet:
         Generate the data object for training by extracting input and output data.
         The input data is constructed by taking the past `lag` timesteps for each spatial point,
         and the output data is the corresponding future timesteps.
+         
+        Returns:
+            dde.data.triple.TripleCartesianProd: data object for training the model.
         """
 
-        input_data = np.zeros((len(self.train_data), (self.m - self.lag), self.branch_input_dimension), dtype = np.float32)
+        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is not None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+
+        branch_input_data = np.zeros((len(self.train_data), (self.m - self.lag), self.branch_input_dimension), dtype = np.float32)
         for i in range(len(self.train_data)):
-            for j in range(input_data[i].shape[0]):
-                input_data[i,j] = self.train_data[i][:,j:j+max(self.lag, 1)].T.ravel().astype(np.float32)
-        input_data = input_data.reshape(-1, self.branch_input_dimension)
+            for j in range(branch_input_data[i].shape[0]):
+                branch_input_data[i,j] = self.train_data[i][:,j:j+max(self.lag, 1)].T.ravel().astype(np.float32)
+        branch_input_data = branch_input_data.reshape(-1, self.branch_input_dimension)
 
         output_data = np.zeros((len(self.train_data), (self.m - self.lag), self.n), dtype = np.float32)
         for i in range(len(self.train_data)):
@@ -114,13 +121,9 @@ class DeepONet:
         output_data = output_data.reshape(-1, self.n)
 
         self.scaler = StandardScaler().fit(output_data)
-        data = dde.data.TripleCartesianProd(X_train = (input_data, self.x.reshape(-1, 1)), y_train = output_data, X_test = (input_data, self.x.reshape(-1, 1)), y_test = output_data)
+        data = dde.data.TripleCartesianProd(X_train = (branch_input_data, trunk_input_data), y_train = output_data, X_test = (branch_input_data, trunk_input_data), y_test = output_data)
         return data
         
-        # OK for KS
-        # data_test is equal to data_train since it is not available. Add valid_test?
-        # TODO: Add time-step info
-
 
     def get_model(self) -> dde.nn.pytorch.deeponet.DeepONetCartesianProd:
         """
@@ -128,8 +131,10 @@ class DeepONet:
         The branch network takes the past `lag` timesteps for each spatial point,
         and the trunk network takes the corresponding spatial coordinates.
         The outputs of the branch and trunk networks are multiplied to get the prediction.
+
+        Returns:
+            dde.nn.pytorch.deeponet.DeepONetCartesianProd: model object for training.        
         """
-        # OK for KS
 
         deeponet = dde.nn.DeepONetCartesianProd(self.branch, self.trunk, self.activation, self.initialization)
         return deeponet
@@ -138,8 +143,10 @@ class DeepONet:
     def train(self) -> dde.model.Model:
         """
         DeepONet training.
+
+        Returns:
+            dde.model.Model: trained model.  
         """
-        # OK for KS
 
         data = self.get_data()
         deeponet = self.get_model()
@@ -157,19 +164,21 @@ class DeepONet:
     def predict(self) -> np.ndarray:
         """
         DeepONet predictions.
+
+        Returns:
+            np.ndarray: array of predictions.  
         """
-        # What if we get NaN in the predictions?
-        # Add timesteps info
 
         model = self.train()
         predictions = np.zeros((self.n, self.prediction_horizon_steps), dtype = np.float32)      
-        
+        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is not None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+
         if self.lag > 0:
             init_data = self.init_data[:,-self.lag:].T.ravel().astype(np.float32)
             for i in range(self.prediction_horizon_steps):           
-                predictions[:,i] = model.predict((init_data.reshape(1, -1), self.x.reshape(-1, 1)))
+                predictions[:,i] = model.predict((init_data.reshape(1, -1), trunk_input_data))
                 init_data = np.concatenate((init_data[self.n:], predictions[:,i]))
         else:
-            predictions = model.predict((self.init_data.T.astype(np.float32), self.x.reshape(-1, 1))).T
+            predictions = model.predict((self.init_data.T.astype(np.float32), trunk_input_data)).T
 
         return predictions

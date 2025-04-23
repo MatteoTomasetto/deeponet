@@ -2,7 +2,7 @@ import argparse
 import yaml
 from pathlib import Path
 import datetime
-from ctf4science.data_module import load_dataset, parse_pair_ids, get_applicable_plots, get_prediction_timesteps
+from ctf4science.data_module import load_dataset, parse_pair_ids, get_applicable_plots, get_prediction_timesteps, get_metadata
 from ctf4science.eval_module import evaluate, save_results
 from ctf4science.visualization_module import Visualization
 from deeponet import DeepONet
@@ -43,9 +43,10 @@ def main(config_path):
         
         # Load metadata (to provide forecast length)
         prediction_timesteps = get_prediction_timesteps(dataset_name, pair_id)
-        
+        delta_t = get_metadata(dataset_name)['delta_t']
+
         # Initialize model
-        model = DeepONet(pair_id, config, train_data, init_data, prediction_timesteps)
+        model = DeepONet(pair_id, config, train_data, init_data, prediction_timesteps, delta_t)
         
         # Generate predictions
         predictions = model.predict()
@@ -64,8 +65,11 @@ def main(config_path):
 
         # Generate and save visualizations
         for plot_type in applicable_plots:
-            fig = viz.plot_from_batch(dataset_name, pair_id, results_directory, plot_type=plot_type)
-            viz.save_figure_results(fig, dataset_name, model_name, batch_id, pair_id, plot_type)
+            #try:
+                fig = viz.plot_from_batch(dataset_name, pair_id, results_directory, plot_type=plot_type)
+                viz.save_figure_results(fig, dataset_name, model_name, batch_id, pair_id, plot_type)
+            #except:
+            #    print(f"Error generating plot for pair_id {pair_id}")
 
     # Save aggregated batch results
     with open(results_directory.parent / 'batch_results.yaml', 'w') as f:
