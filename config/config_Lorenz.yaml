@@ -1,6 +1,6 @@
 dataset:
   name: ODE_Lorenz
-  pair_id: [1]
+  pair_id: 'all'
 model:
   name: DeepONet
   lag: 3

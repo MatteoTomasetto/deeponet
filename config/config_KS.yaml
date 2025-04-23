@@ -1,6 +1,6 @@
 dataset:
   name: PDE_KS
-  pair_id: [7]
+  pair_id: 'all'
 model:
   name: DeepONet
   lag: 3
