@@ -90,7 +90,7 @@ class DeepONet:
         if self.lag > self.M:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of burn-in timesteps ({self.M}).")
         
-        self.prediction_horizon_steps = len(self.prediction_timesteps) if prediction_timesteps is not None else self.m
+        self.prediction_horizon_steps = len(prediction_timesteps) if prediction_timesteps is not None else self.m
         
         self.branch_input_dimension = max(self.lag, 1) * self.n
         self.branch = [self.branch_input_dimension] + [self.branch_neurons] * self.branch_layers
