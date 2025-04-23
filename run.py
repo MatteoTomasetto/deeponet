@@ -44,7 +44,7 @@ def main(config_path):
         # Load metadata (to provide forecast length)
         prediction_timesteps = get_prediction_timesteps(dataset_name, pair_id)
         delta_t = get_metadata(dataset_name)['delta_t']
-
+        
         # Initialize model
         model = DeepONet(pair_id, config, train_data, init_data, prediction_timesteps, delta_t)
         

@@ -94,7 +94,8 @@ class DeepONet:
         
         self.branch_input_dimension = max(self.lag, 1) * self.n
         self.branch = [self.branch_input_dimension] + [self.branch_neurons] * self.branch_layers
-        self.trunk = [1] + [self.trunk_neurons] * self.trunk_layers
+        self.trunk_input_dimension = 1 if delta_t is None else 2
+        self.trunk = [self.trunk_input_dimension] + [self.trunk_neurons] * self.trunk_layers
 
 
     def get_data(self) -> dde.data.triple.TripleCartesianProd:
@@ -107,7 +108,7 @@ class DeepONet:
             dde.data.triple.TripleCartesianProd: data object for training the model.
         """
 
-        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is not None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
 
         branch_input_data = np.zeros((len(self.train_data), (self.m - self.lag), self.branch_input_dimension), dtype = np.float32)
         for i in range(len(self.train_data)):
