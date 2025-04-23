@@ -6,7 +6,7 @@ dde.backend.set_default_backend("pytorch")
 
 class DeepONet:
     """
-    Deep Operator Netwroork (DeepONet) model.
+    Deep Operator Network (DeepONet) model.
 
     Attributes:
         pair_id (int): Identifier for the data pair to consider.
@@ -56,7 +56,7 @@ class DeepONet:
         self.pair_id = pair_id
 
         if self.pair_id == 2 or self.pair_id == 4:
-            print("Reconstruction task: 'lag' parameter set equal to 0 since burn-in data not needed")
+            print("Reconstruction task: 'lag' parameter equal to 0 since burn-in data not needed")
             self.lag = 0
         else:
             self.lag = config['model']['lag']
@@ -78,8 +78,7 @@ class DeepONet:
         self.n = train_data[0].shape[0]
         self.m = train_data[0].shape[1]
         self.x = np.arange(0, self.n).astype(np.float32) ## TODO: Fix with domain info
-        self.t = np.arange(0, self.m).astype(np.float32) ## TODO: Fix with time-step info
-        #self.xt = np.vstack((np.tile(self.x, len(self.t)), np.repeat(self.t, len(self.x)))).T
+        #self.dt = 
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
