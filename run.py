@@ -65,11 +65,11 @@ def main(config_path):
 
         # Generate and save visualizations
         for plot_type in applicable_plots:
-            #try:
+            try:
                 fig = viz.plot_from_batch(dataset_name, pair_id, results_directory, plot_type=plot_type)
                 viz.save_figure_results(fig, dataset_name, model_name, batch_id, pair_id, plot_type)
-            #except:
-            #    print(f"Error generating plot for pair_id {pair_id}")
+            except:
+                print(f"Error generating plot for pair_id {pair_id}")
 
     # Save aggregated batch results
     with open(results_directory.parent / 'batch_results.yaml', 'w') as f:
