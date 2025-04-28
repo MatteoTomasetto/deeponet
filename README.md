@@ -25,22 +25,19 @@ where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to pred
 
 ## Files
 - `deeponet.py`: Contains the `DeepONet` class implementing the model logic based on [DeepXDE](https://github.com/lululxvi/deepxde).
-- `run.py`: Batch runner script for running the model across multiple sub-datasets.
-- `config_*.yaml`: Configuration file for running the model.
+- `run.py`: Batch runner script for running the model across multiple sub-datasets in the [CTF-for-Science](https://github.com/CTF-for-Science) framework.
+- `config_*.yaml`: Configuration file for running the model with problem-specific hyperparameters.
 
 ## Usage
 
 Run the model with:
 
 ```bash
-python models/deeponet/run.py models/deeponet/config.yaml
+python models/deeponet/run.py models/deeponet/config_*.yaml
 ```
 
 ## Dependencies
 - Add any model-specific dependencies here.
-
-## Description
-- Add a detailed description of your DeepONet model, its parameters, and usage instructions here.
 
 ## References
 [1] Lu L., Jin P., Pang G., Zhang Z., Karniadakis G.E., *Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators*. Nature Machine Intelligence 3, 218–229 (2021). [https://doi.org/10.1038/s42256-021-00302-5](https://doi.org/10.1038/s42256-021-00302-5)
