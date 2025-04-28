@@ -20,7 +20,7 @@ where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finit
 
 For instance, when dealing with time-series data as taken into account by [CTF-for-Science](https://github.com/CTF-for-Science), it is possible to consider the operator
 
-$$ G(u_{t-1},...,u_{t-k})(\xi) = u_t(\xi) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\xi) $$
+$$ G\left(u_{t-1},...,u_{t-k}\right)\left(\xi\right) = u_t\left(\xi\right) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\xi) $$
 
 where $k$ is the lag parameter and $\xi$ are the spatial coordinates where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
 
