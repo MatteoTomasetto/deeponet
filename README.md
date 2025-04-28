@@ -7,9 +7,9 @@ This directory contains an implementation of *Deep Operator Networks* for [CTF-f
 - *Trunk net* that encodes the coordinates at which the output function is evaluated.
 In formula, the operator $G: V \to U$ between infinite-dimensional functional spaces $V$ and $U$ is approximated though the product
 
-$$ G(𝘷)(\xi) = 𝗯(𝘷) \cdot 𝘁(\xi) $$
+$$ G\left(𝘷)\left(\xi\right) = 𝗯\left(𝘷\right) \cdot 𝘁\left(\xi\right) $$
 
-where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\xi$.
+where $𝗯\left(𝘷\right)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of sensor measurements $𝘃$ of the function $𝘷$), and $𝘁\left(\xi\right)$ is the trunk net output dependent on the coordinates $\xi$.
 
 <br />
 <p align="center" width="75%">
@@ -20,7 +20,7 @@ where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finit
 
 For instance, when dealing with time-series data as taken into account by [CTF-for-Science](https://github.com/CTF-for-Science), it is possible to consider the operator
 
-$$ G\left(u_{t-1},...,u_{t-k}\right)\left(\xi\right) = u_t\left(\xi\right) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\xi) $$
+$$ G\left(u_{t-1},...,u_{t-k}\right)\left(\xi\right) = u_t\left(\xi\right) \approx 𝗯\left(𝘂_{t-1},...,𝘂_{t-k}\right) \cdot 𝘁\left(\xi\right) $$
 
 where $k$ is the lag parameter and $\xi$ are the spatial coordinates where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
 
