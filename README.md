@@ -27,7 +27,28 @@ where $k$ is the lag parameter and $\xi$ are the spatial coordinates where to pr
 ## Files
 - `deeponet.py`: Contains the `DeepONet` class implementing the model logic based on [DeepXDE](https://github.com/lululxvi/deepxde).
 - `run.py`: Batch runner script for running the model across multiple sub-datasets in the [CTF-for-Science](https://github.com/CTF-for-Science) framework.
-- `config_*.yaml`: Configuration file for running the model with problem-specific hyperparameters.
+- `config_KS.yaml`: Configuration file for running the model on `PDE_KS` test cases for all sub-datasets.
+- `config_Lorenz.yaml`: Configuration file for running the model on `ODE_Lorenz` test cases for all sub-datasets.
+
+The configuration files specify the hyperparameters for running the model with the following structure
+```yaml
+dataset:
+  name: <dataset_name>  # Test case (e.g. PDE_KS, ODE_Lorenz)
+  pair_id: 'all'        # Which sub-datasets to consider
+model:
+  name: DeepONet
+  lag: <lag_parameter>                 # Number of past values to consider in the branch net input
+  branch_layers: <branch_layers>       # Number of branch net layers
+  trunk_layers: <trunk_layers>         # Number of trunk net layers
+  branch_neurons: <branch_neurons>     # Number of branch net neurons in every layer
+  trunk_neurons: <trunk_neurons>       # Number of trunk net neurons in every layer
+  activation: <activation_function>    # Activation function (e.g. "relu", "tanh")
+  initialization: <initialization>     # Initialization of the networks (e.g. "Glorot normal") 
+  optimizer: <optimization_algorithm>  # Optimization algorithm for training (e.g. "adam", "L-BFGS")
+  learning_rate: <learning_rate>       # Learning rate for training
+  epochs: <epochs>                     # Number of epochs for training
+  batch_size: <batch_size>             # Batch size for training
+```
 
 ## Usage
 
