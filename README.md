@@ -37,7 +37,17 @@ python models/deeponet/run.py models/deeponet/config_*.yaml
 ```
 
 ## Dependencies
-- Add any model-specific dependencies here.
+- numpy
+- torch
+- sklearn
+- deepxde
+
+[DeepXDE](https://github.com/lululxvi/deepxde) can be installed through the following commands:
+```terminal
+conda create -n deepxde
+conda activate deepxde
+conda install -c conda-forge pytorch deepxde
+```
 
 ## References
 [1] Lu L., Jin P., Pang G., Zhang Z., Karniadakis G.E., *Learning nonlinear operators via DeepONet based on the universal approximation theorem of operators*. Nature Machine Intelligence 3, 218–229 (2021). [https://doi.org/10.1038/s42256-021-00302-5](https://doi.org/10.1038/s42256-021-00302-5)
