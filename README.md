@@ -6,7 +6,7 @@ This directory contains an implementation of *Deep Operator Networks* for [CTF-f
 - *Trunk net* that encodes the coordinates at which the output function is evaluated.
 In formula, the operator $G: V \to U$ between infinite-dimensional function spaces $V$ and $U$ is approximated though the product
 
-$$ G(v)(\eta) = \mathbf{b}(v) \cdot \mathbf{t}(\eta) $$
+$$ G(v)(\eta) = \boldsymbol{b}(v) \cdot \boldsymbol{t}(\eta) $$
 
 where $\mathbf{b}(v)$ is the branch net output dependent on the input $v \in V$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $\mathbf{v} \in \mathbb{R}^n$ of the function $v$), and $\mathbf{t}(\eta)$ is the trunk net output dependent on the coordinates $\eta$.
 
