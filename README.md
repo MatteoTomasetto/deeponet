@@ -10,10 +10,12 @@ $$ G(v)(\eta) = \boldsymbol{b}(v) \cdot \boldsymbol{t}(\eta) $$
 
 where $\mathbf{b}(v)$ is the branch net output dependent on the input $v \in V$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $\mathbf{v} \in \mathbb{R}^n$ of the function $v$), and $\mathbf{t}(\eta)$ is the trunk net output dependent on the coordinates $\eta$.
 
-<p align="center" width="100%">
+<br />
+<p align="center" width="90%">
   <img width=100% src="./DeepONet.jpg" >
   <br />
 </p>
+<br />
 
 For instance, when dealing with time-series data as taken into account by [CTF-for-Science](https://github.com/CTF-for-Science), it is possible to consider the operator
 
