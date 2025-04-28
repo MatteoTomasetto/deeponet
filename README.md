@@ -30,7 +30,7 @@ where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to pred
 
 ## Usage
 
-Run the model with:
+In the [CTF-for-Science](https://github.com/CTF-for-Science) repository, the DeepONet model can be tested with:
 
 ```bash
 python models/deeponet/run.py models/deeponet/config_*.yaml
@@ -41,8 +41,9 @@ python models/deeponet/run.py models/deeponet/config_*.yaml
 - torch
 - sklearn
 - deepxde
+
 [DeepXDE](https://github.com/lululxvi/deepxde) can be installed through the following commands:
-```
+```bash
 conda create -n deepxde
 conda activate deepxde
 conda install -c conda-forge pytorch deepxde
