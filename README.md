@@ -41,9 +41,8 @@ python models/deeponet/run.py models/deeponet/config_*.yaml
 - torch
 - sklearn
 - deepxde
-
 [DeepXDE](https://github.com/lululxvi/deepxde) can be installed through the following commands:
-```terminal
+```
 conda create -n deepxde
 conda activate deepxde
 conda install -c conda-forge pytorch deepxde
