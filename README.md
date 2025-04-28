@@ -13,7 +13,7 @@ where $𝗯\left(𝘷\right)$ is the branch net output dependent on the input $�
 
 <br />
 <p align="center" width="75%">
-  <img width=100% src="./deeponet.jpg" >
+  <img width=100% src="./deeponet.png" >
   <br />
 </p>
 <br />
