@@ -11,7 +11,7 @@ $$ G(v)(\eta) = 𝗯(v) \cdot 𝘁(\eta) $$
 where $𝗯(v)$ is the branch net output dependent on the input $v$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $v$), and $𝘁(\eta)$ is the trunk net output dependent on the coordinates $\eta$.
 
 <br />
-<p align="center" width="90%">
+<p align="center" width="75%">
   <img width=100% src="./DeepONet.jpg" >
   <br />
 </p>
