@@ -30,7 +30,7 @@ where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to pred
 
 ## Usage
 
-In the [CTF-for-Science](https://github.com/CTF-for-Science) repository, the DeepONet model can be tested with:
+In the [CTF-for-Science](https://github.com/CTF-for-Science) framework, the DeepONet model can be tested with:
 
 ```bash
 python models/deeponet/run.py models/deeponet/config_*.yaml
