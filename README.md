@@ -13,7 +13,7 @@ where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finit
 
 <br />
 <p align="center" width="75%">
-  <img width=100% src="./DeepONet.jpg" >
+  <img width=100% src="./deeponet.jpg" >
   <br />
 </p>
 <br />
