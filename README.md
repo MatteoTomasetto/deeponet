@@ -1,14 +1,15 @@
 # Deep Operator Networks
 
 This directory contains an implementation of *Deep Operator Networks* for [CTF-for-Science](https://github.com/CTF-for-Science).
-*Deep Operator Networks (DeepONets)* are a class of neural operator architectures designed to learn mappings between infinite-dimensional function spaces. For a complete presentation see, for instance, [1,2]. Specifically, DeepONets decompose an operator into two cooperating sub-networks:
+
+*Deep Operator Networks (DeepONets)* are a class of neural operators designed to learn mappings between infinite-dimensional functional spaces. For a complete presentation see, for instance, [1,2]. Specifically, DeepONets decompose an operator into two cooperating sub-networks:
 - *Branch net* that encodes input functions at a finite set of sensors,
 - *Trunk net* that encodes the coordinates at which the output function is evaluated.
-In formula, the operator $G: V \to U$ between infinite-dimensional function spaces $V$ and $U$ is approximated though the product
+In formula, the operator $G: V \to U$ between infinite-dimensional functional spaces $V$ and $U$ is approximated though the product
 
 $$ G(𝘷)(\xi) = 𝗯(𝘷) \cdot 𝘁(\xi) $$
 
-where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\xi$.
+where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\xi$.
 
 <br />
 <p align="center" width="75%">
@@ -21,7 +22,7 @@ For instance, when dealing with time-series data as taken into account by [CTF-f
 
 $$ G(u_{t-1},...,u_{t-k})(\xi) = u_t(\xi) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\xi) $$
 
-where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
+where $k$ is the lag parameter and $\xi$ are the spatial coordinates where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
 
 ## Files
 - `deeponet.py`: Contains the `DeepONet` class implementing the model logic based on [DeepXDE](https://github.com/lululxvi/deepxde).
@@ -30,7 +31,7 @@ where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to pred
 
 ## Usage
 
-In the [CTF-for-Science](https://github.com/CTF-for-Science) framework, the DeepONet model can be tested with:
+In the [CTF-for-Science](https://github.com/CTF-for-Science) framework, the DeepONet model can be tested with the command
 
 ```bash
 python models/deeponet/run.py models/deeponet/config_*.yaml
@@ -42,7 +43,7 @@ python models/deeponet/run.py models/deeponet/config_*.yaml
 - sklearn
 - deepxde
 
-[DeepXDE](https://github.com/lululxvi/deepxde) can be installed through the following commands:
+[DeepXDE](https://github.com/lululxvi/deepxde) can be installed through the following commands
 ```bash
 conda create -n deepxde
 conda activate deepxde
