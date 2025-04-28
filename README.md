@@ -8,7 +8,7 @@ In formula, the operator $G: V \to U$ between infinite-dimensional function spac
 
 $$ G(𝘷)(\xi) = 𝗯(𝘷) \cdot 𝘁(\xi) $$
 
-where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\eta$.
+where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\xi$.
 
 <br />
 <p align="center" width="75%">
