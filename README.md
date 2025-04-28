@@ -47,4 +47,4 @@ python models/deeponet/run.py models/deeponet/config.yaml
 
 [2] Lu L., Meng X., Cai S., Mao Z., Goswami S., Zhang Z., Karniadakis G.E., *A comprehensive and fair comparison of two neural operators (with practical extensions) based on FAIR data*, Computer Methods in Applied Mechanics and Engineering 393,114778 (2022). [https://doi.org/10.1016/j.cma.2022.114778](https://doi.org/10.1016/j.cma.2022.114778)
 
-[3] 
+[3] Lin G., Moya C., Zhang Z., *Learning the dynamical response of nonlinear non-autonomous dynamical systems with deep operator neural networks*, Engineering Applications of Artificial Intelligence 125, 106689 (2023). [https://doi.org/10.1016/j.engappai.2023.106689](https://doi.org/10.1016/j.engappai.2023.106689)
