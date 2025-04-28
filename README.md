@@ -6,9 +6,9 @@ This directory contains an implementation of *Deep Operator Networks* for [CTF-f
 - *Trunk net* that encodes the coordinates at which the output function is evaluated.
 In formula, the operator $G: V \to U$ between infinite-dimensional function spaces $V$ and $U$ is approximated though the product
 
-$$ G(𝘷)(\eta) = 𝗯(𝘷) \cdot 𝘁(\eta) $$
+$$ G(𝘷)(\xi) = 𝗯(𝘷) \cdot 𝘁(\xi) $$
 
-where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\eta)$ is the trunk net output dependent on the coordinates $\eta$.
+where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of $n$ sensor measurements $𝘃$ of the function $𝘷$), and $𝘁(\xi)$ is the trunk net output dependent on the coordinates $\eta$.
 
 <br />
 <p align="center" width="75%">
@@ -19,9 +19,9 @@ where $𝗯(𝘷)$ is the branch net output dependent on the input $𝘷$ (finit
 
 For instance, when dealing with time-series data as taken into account by [CTF-for-Science](https://github.com/CTF-for-Science), it is possible to consider the operator
 
-$$ G(u_{t-1},...,u_{t-k})(\eta) = u_t(\eta) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\eta) $$
+$$ G(u_{t-1},...,u_{t-k})(\xi) = u_t(\xi) \approx 𝗯(𝘂_{t-1},...,𝘂_{t-k}) \cdot 𝘁(\xi) $$
 
-where $k$ is the lag parameter and $\eta$ is the spatial coordinate where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
+where $k$ is the lag parameter and $\xi$ is the spatial coordinate where to predict the evolution of the function $u$. As proposed by [2, 3], the time instance $t$ or the time-step $\Delta t$ may be added to the trunk input.
 
 ## Files
 - `deeponet.py`: Contains the `DeepONet` class implementing the model logic based on [DeepXDE](https://github.com/lululxvi/deepxde).
