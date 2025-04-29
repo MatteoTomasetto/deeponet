@@ -9,7 +9,7 @@ In formulas, the operator $G: V \to U$ between infinite-dimensional functional s
 
 $$ G\left(𝘷\right)\left(\xi\right) = 𝗯\left(𝘷\right) \cdot 𝘁\left(\xi\right) $$
 
-where $𝗯\left(𝘷\right)$ is the branch net output dependent on the input $𝘷$ (finite dimensional input are typically considered relying on a finite set of sensor measurements $𝘃$ of the function $𝘷$), and $𝘁\left(\xi\right)$ is the trunk net output dependent on the coordinates $\xi$.
+where $𝗯\left(𝘷\right)$ is the branch net output dependent on the input $𝘷$ (finite-dimensional inputs are typically considered relying on a finite set of sensor measurements $𝘃$ of the function $𝘷$), and $𝘁\left(\xi\right)$ is the trunk net output dependent on the coordinates $\xi$.
 
 <br />
 <p align="center" width="75%">
