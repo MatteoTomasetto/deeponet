@@ -61,10 +61,13 @@ class DeepONet:
         if self.pair_id == 2 or self.pair_id == 4:
             print("Reconstruction task: 'lag' parameter equal to 0 since burn-in data not needed")
             self.lag = 0
+            self.delta_t = None
         else:
             self.lag = config['model']['lag']
             if self.lag < 1:
                 raise ValueError(f"Forecasting task: select a positive 'lag' parameter")
+            self.delta_t = delta_t
+
         
         self.branch_layers = config['model']['branch_layers']
         self.trunk_layers = config['model']['trunk_layers']
@@ -81,7 +84,6 @@ class DeepONet:
         self.n = train_data[0].shape[0]
         self.m = train_data[0].shape[1]
         self.x = np.arange(0, self.n).astype(np.float32) ## TODO: Fix with domain info
-        self.delta_t = delta_t
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
