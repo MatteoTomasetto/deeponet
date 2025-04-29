@@ -5,7 +5,7 @@ This directory contains an implementation of *Deep Operator Networks* for [CTF-f
 *Deep Operator Networks (DeepONets)* are a class of neural operators designed to learn mappings between infinite-dimensional functional spaces. For a complete presentation see, for instance, [1,2]. Specifically, DeepONets decompose an operator into two cooperating sub-networks:
 - *Branch net* that encodes input functions at a finite set of sensors,
 - *Trunk net* that encodes the coordinates at which the output function is evaluated.
-In formulas, the operator $G: V \to U$ between infinite-dimensional functional spaces $V$ and $U$ is approximated though the product
+In formulas, the operator $G: V \to U$ between infinite-dimensional functional spaces $V$ and $U$ is approximated through the product
 
 $$ G\left(𝘷\right)\left(\xi\right) = 𝗯\left(𝘷\right) \cdot 𝘁\left(\xi\right) $$
 
