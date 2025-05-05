@@ -83,7 +83,8 @@ class DeepONet:
         self.train_data = train_data
         self.n = train_data[0].shape[0]
         self.m = train_data[0].shape[1]
-        self.x = np.arange(0, self.n).astype(np.float32) ## TODO: Fix with domain info
+        self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).astype(np.float32)
+
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
