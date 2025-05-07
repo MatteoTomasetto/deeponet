@@ -6,9 +6,18 @@ from ctf4science.data_module import load_dataset, parse_pair_ids, get_applicable
 from ctf4science.eval_module import evaluate, save_results
 from ctf4science.visualization_module import Visualization
 from deeponet import DeepONet
-import matplotlib.pyplot as plt
 
 def main(config_path):
+    """
+    Main function to run the DeepONet model on specified sub-datasets.
+
+    Loads configuration, parses pair_ids, initializes the model, generates predictions,
+    evaluates them, and saves results for each sub-dataset under a batch identifier.
+
+    Args:
+        config_path (str): Path to the configuration file.
+    """
+        
     # Load configuration
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
@@ -18,7 +27,7 @@ def main(config_path):
     pair_ids = parse_pair_ids(config['dataset'])
 
     # Define model name
-    model_name = "DeepONet"
+    model_name = f"{config['model']['name']}"
 
     # Generate a unique batch_id for this run
     batch_id = f"batch_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -41,7 +50,7 @@ def main(config_path):
         # Load sub-dataset
         train_data, init_data = load_dataset(dataset_name, pair_id)
         
-        # Load metadata (to provide forecast length)
+        # Load metadata
         prediction_timesteps = get_prediction_timesteps(dataset_name, pair_id)
         delta_t = get_metadata(dataset_name)['delta_t']
         

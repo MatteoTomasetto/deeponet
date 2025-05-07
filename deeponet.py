@@ -3,6 +3,9 @@ import torch
 from sklearn.preprocessing import StandardScaler
 import deepxde as dde
 dde.backend.set_default_backend("pytorch")
+from typing import List, Dict, Optional
+
+np.random.seed(2025)
 
 class DeepONet:
     """
@@ -23,7 +26,7 @@ class DeepONet:
         epochs (int): Number of training epochs.
         batch_size (int): Batch size for training.
         
-        train_data (np.ndarray): Training data.
+        train_data List[np.ndarray]: Training data.
         n (int): Number of spatial points.
         m (int): Number of time points.
         x (np.ndarray): Spatial coordinates.
@@ -36,18 +39,20 @@ class DeepONet:
 
         branch_input_dimension (int): Input dimension for the branch network.
         branch (list): Branch network architecture.
+        trunk_input_dimension (int): Input dimension for the trunk network.
         trunk (list): Trunk network architecture.
         
         scaler (StandardScaler): Scaler for output data.
     """
 
-    def __init__(self, pair_id, config, train_data, init_data = None, prediction_timesteps = None, delta_t = None):
+    def __init__(self, pair_id: int, config: Dict, train_data: List[np.ndarray], init_data: Optional[np.ndarray] = None, prediction_timesteps: Optional[np.ndarray] = None, delta_t: Optional[float] = None):
         """
         Initialize the DeepONet model with the provided configuration.
 
         Args:
+            pair_id (int): Identifier for the data pair to consider.
             config (Dict): Configuration dictionary containing method and parameters.
-            train_data (np.ndarray): Training data.
+            train_data List[np.ndarray]: Training data.
             init_data (np.ndarray): Burn-in data for prediction.
             prediction_timesteps (np.ndarray): Prediction timesteps for the model.
             delta_t (float): Timestep length
@@ -68,7 +73,6 @@ class DeepONet:
                 raise ValueError(f"Forecasting task: select a positive 'lag' parameter")
             self.delta_t = delta_t
 
-        
         self.branch_layers = config['model']['branch_layers']
         self.trunk_layers = config['model']['trunk_layers']
         self.branch_neurons = config['model']['branch_neurons']
@@ -83,7 +87,7 @@ class DeepONet:
         self.train_data = train_data
         self.n = train_data[0].shape[0]
         self.m = train_data[0].shape[1]
-        self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).astype(np.float32)
+        self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).astype(np.float32) if config['dataset']['name'] == 'PDE_KS' else np.arange(0, self.n).astype(np.float32) 
 
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
