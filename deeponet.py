@@ -1,9 +1,9 @@
+from typing import List, Dict, Optional
 import numpy as np
 import torch
 from sklearn.preprocessing import StandardScaler
 import deepxde as dde
 dde.backend.set_default_backend("pytorch")
-from typing import List, Dict, Optional
 
 np.random.seed(2025)
 
