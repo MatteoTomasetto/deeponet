@@ -27,8 +27,8 @@ class DeepONet:
         batch_size (int): Batch size for training.
         
         train_data List[np.ndarray]: Training data.
-        n (int): Number of spatial points.
         m (int): Number of time points.
+        n (int): Number of spatial points.
         x (np.ndarray): Spatial coordinates.
         delta_t (float): Timestep length
 
@@ -85,14 +85,14 @@ class DeepONet:
         self.batch_size = config['model']['batch_size']
 
         self.train_data = train_data
-        self.n = train_data[0].shape[0]
-        self.m = train_data[0].shape[1]
+        self.m = train_data[0].shape[0]
+        self.n = train_data[0].shape[1]
         self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).astype(np.float32) if config['dataset']['name'] == 'PDE_KS' else np.arange(0, self.n).astype(np.float32) 
 
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
-        self.init_data = init_data if init_data is not None else train_data[0][:,-self.lag:]
+        self.init_data = init_data if init_data is not None else train_data[0][-self.lag:,:]
         self.M = init_data.shape[1] if init_data is not None else self.lag
         if self.lag > self.M:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of burn-in timesteps ({self.M}).")
@@ -103,7 +103,6 @@ class DeepONet:
         self.branch = [self.branch_input_dimension] + [self.branch_neurons] * self.branch_layers
         self.trunk_input_dimension = 1 if self.delta_t is None else 2
         self.trunk = [self.trunk_input_dimension] + [self.trunk_neurons] * self.trunk_layers
-
 
     def get_data(self) -> dde.data.triple.TripleCartesianProd:
         """
@@ -120,12 +119,12 @@ class DeepONet:
         branch_input_data = np.zeros((len(self.train_data), (self.m - self.lag), self.branch_input_dimension), dtype = np.float32)
         for i in range(len(self.train_data)):
             for j in range(branch_input_data[i].shape[0]):
-                branch_input_data[i,j] = self.train_data[i][:,j:j+max(self.lag, 1)].T.ravel().astype(np.float32)
+                branch_input_data[i,j] = self.train_data[i][j:j+max(self.lag, 1),:].ravel().astype(np.float32)
         branch_input_data = branch_input_data.reshape(-1, self.branch_input_dimension)
 
         output_data = np.zeros((len(self.train_data), (self.m - self.lag), self.n), dtype = np.float32)
         for i in range(len(self.train_data)):
-            output_data[i] = self.train_data[i][:,self.lag:].T.astype(np.float32)
+            output_data[i] = self.train_data[i][self.lag:,:].astype(np.float32)
         output_data = output_data.reshape(-1, self.n)
 
         self.scaler = StandardScaler().fit(output_data)
@@ -178,15 +177,15 @@ class DeepONet:
         """
 
         model = self.train()
-        predictions = np.zeros((self.n, self.prediction_horizon_steps), dtype = np.float32)      
+        predictions = np.zeros((self.prediction_horizon_steps, self.n), dtype = np.float32)      
         trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
 
         if self.lag > 0:
-            init_data = self.init_data[:,-self.lag:].T.ravel().astype(np.float32)
+            init_data = self.init_data[-self.lag:,:].ravel().astype(np.float32)
             for i in range(self.prediction_horizon_steps):           
-                predictions[:,i] = model.predict((init_data.reshape(1, -1), trunk_input_data))
-                init_data = np.concatenate((init_data[self.n:], predictions[:,i]))
+                predictions[i,:] = model.predict((init_data.reshape(1, -1), trunk_input_data))
+                init_data = np.concatenate((init_data[self.n:], predictions[i,:]))
         else:
-            predictions = model.predict((self.init_data.T.astype(np.float32), trunk_input_data)).T
+            predictions = model.predict((self.init_data.astype(np.float32), trunk_input_data))
 
         return predictions
