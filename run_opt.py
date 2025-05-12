@@ -57,7 +57,7 @@ def main(config_path: str) -> None:
     for pair_id in pair_ids:
         
         # Generate training and validation splits (and burn-in matrix when applicable) 
-        train_split = config['model']['train_split']
+        train_split = 0.8#config['model']['train_split']
         train_data, val_data, init_data = load_validation_dataset(dataset_name, pair_id, train_split)
         
         # Load meta-data

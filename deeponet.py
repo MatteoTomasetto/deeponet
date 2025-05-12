@@ -5,8 +5,6 @@ from sklearn.preprocessing import StandardScaler
 import deepxde as dde
 dde.backend.set_default_backend("pytorch")
 
-np.random.seed(2025)
-
 class DeepONet:
     """
     Deep Operator Network (DeepONet) model.
@@ -24,9 +22,8 @@ class DeepONet:
         optimizer (str): Optimizer to use for training.
         learning_rate (float): Learning rate for the optimizer.
         epochs (int): Number of training epochs.
-        batch_size (int): Batch size for training.
         
-        train_data List[np.ndarray]: Training data.
+        train_data: List[np.ndarray]: Training data.
         m (int): Number of time points.
         n (int): Number of spatial points.
         x (np.ndarray): Spatial coordinates.
@@ -75,14 +72,12 @@ class DeepONet:
 
         self.branch_layers = config['model']['branch_layers']
         self.trunk_layers = config['model']['trunk_layers']
-        self.branch_neurons = config['model']['branch_neurons']
-        self.trunk_neurons = config['model']['trunk_neurons']
+        self.branch_neurons = self.trunk_neurons = config['model']['neurons']
         self.activation = config['model']['activation']
         self.initialization = config['model']['initialization']
         self.optimizer = config['model']['optimizer']
         self.learning_rate = config['model']['learning_rate']
         self.epochs = config['model']['epochs']
-        self.batch_size = config['model']['batch_size']
 
         self.train_data = train_data
         self.m = train_data[0].shape[0]
@@ -93,7 +88,7 @@ class DeepONet:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
         
         self.init_data = init_data if init_data is not None else train_data[0][-self.lag:,:]
-        self.M = init_data.shape[1] if init_data is not None else self.lag
+        self.M = init_data.shape[0] if init_data is not None else self.lag
         if self.lag > self.M:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of burn-in timesteps ({self.M}).")
         
@@ -126,7 +121,7 @@ class DeepONet:
         for i in range(len(self.train_data)):
             output_data[i] = self.train_data[i][self.lag:,:].astype(np.float32)
         output_data = output_data.reshape(-1, self.n)
-
+    
         self.scaler = StandardScaler().fit(output_data)
         data = dde.data.TripleCartesianProd(X_train = (branch_input_data, trunk_input_data), y_train = output_data, X_test = (branch_input_data, trunk_input_data), y_test = output_data)
         return data
@@ -161,10 +156,11 @@ class DeepONet:
         output_transform = lambda inputs, outputs: outputs * torch.from_numpy(np.sqrt(self.scaler.var_.astype(np.float32)) + self.scaler.mean_.astype(np.float32))
         deeponet.apply_output_transform(output_transform)
         
+        early_stopping = dde.callbacks.EarlyStopping(patience = 500, min_delta = 1e-6)
+        
         model = dde.Model(data, deeponet)
         model.compile(self.optimizer, lr = self.learning_rate, metrics = ["mean l2 relative error"])
-        _, _ = model.train(iterations = self.epochs, batch_size = self.batch_size)
-
+        _, _ = model.train(iterations = self.epochs, callbacks=[early_stopping])
         return model
 
 

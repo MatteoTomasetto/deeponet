@@ -1,17 +1,17 @@
 dataset:
-  name: PDE_KS
-  pair_id: [1,2,3,4,5,6,7,8,9]
+  name: Lorenz_Official
+  pair_id: [1]
 model:
   name: DeepONet
   train_split: 0.8
   seed: 0
-  n_trials: 3
+  n_trials: 10
   method: 'constant'
 hyperparameters: # Specify hyperparameters and ranges
   lag:
     type: randint
     lower_bound: 1
-    upper_bound: 50
+    upper_bound: 99
   branch_layers:
     type: randint
     lower_bound: 1
@@ -20,32 +20,24 @@ hyperparameters: # Specify hyperparameters and ranges
     type: randint
     lower_bound: 1
     upper_bound: 10
-  branch_neurons:
-    type: randint
-    lower_bound: 1
-    upper_bound: 1024
-  trunk_neurons:
+  neurons:
     type: randint
     lower_bound: 1
     upper_bound: 1024
   activation:
     type: choice
-    values: ["tanh", "relu", "elu"]
+    choices: ["tanh", "relu", "elu"]
   initialization:
     type: choice
-    values: ["Glorot normal", "He normal"]
+    choices: ["Glorot normal", "He normal"]
   optimizer:
     type: choice
-    values: ["adam", "L-BFGS"]
+    choices: ["adam", "L-BFGS"]
   learning_rate:
     type: loguniform
-    lower_bound: 1e-5
-    upper_bound: 1e-1
+    lower_bound: 1.e-5
+    upper_bound: 1.e-1
   epochs:
     type: randint
-    lower_bound: 100
-    upper_bound: 50000
-  batch_size:
-    type: randint
-    lower_bound: 1
-    upper_bound: 32
+    lower_bound: 10000
+    upper_bound: 100000

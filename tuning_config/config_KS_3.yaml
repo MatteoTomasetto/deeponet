@@ -1,0 +1,43 @@
+dataset:
+  name: KS_Official
+  pair_id: [3]
+model:
+  name: DeepONet
+  train_split: 0.8
+  seed: 0
+  n_trials: 10
+  method: 'constant'
+hyperparameters: # Specify hyperparameters and ranges
+  lag:
+    type: randint
+    lower_bound: 1
+    upper_bound: 99
+  branch_layers:
+    type: randint
+    lower_bound: 1
+    upper_bound: 10
+  trunk_layers:
+    type: randint
+    lower_bound: 1
+    upper_bound: 10
+  neurons:
+    type: randint
+    lower_bound: 1
+    upper_bound: 1024
+  activation:
+    type: choice
+    choices: ["tanh", "relu", "elu"]
+  initialization:
+    type: choice
+    choices: ["Glorot normal", "He normal"]
+  optimizer:
+    type: choice
+    choices: ["adam", "L-BFGS"]
+  learning_rate:
+    type: loguniform
+    lower_bound: 1.e-5
+    upper_bound: 1.e-1
+  epochs:
+    type: randint
+    lower_bound: 10000
+    upper_bound: 100000
