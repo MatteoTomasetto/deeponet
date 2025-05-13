@@ -1,17 +1,15 @@
 dataset:
-  name: KS_Official
+  name: PDE_KS
   pair_id: [4]
 model:
   name: DeepONet
   train_split: 0.8
   seed: 0
-  n_trials: 10
+  n_trials: 100
   method: 'constant'
+  epochs: 100000
+  lag: 0
 hyperparameters: # Specify hyperparameters and ranges
-  lag:
-    type: randint
-    lower_bound: 0
-    upper_bound: 0
   branch_layers:
     type: randint
     lower_bound: 1
@@ -37,7 +35,3 @@ hyperparameters: # Specify hyperparameters and ranges
     type: loguniform
     lower_bound: 1.e-5
     upper_bound: 1.e-1
-  epochs:
-    type: randint
-    lower_bound: 10000
-    upper_bound: 100000
