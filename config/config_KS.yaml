@@ -1,9 +1,9 @@
 dataset:
   name: PDE_KS
-  pair_id: 'all'
+  pair_id: [2]
 model:
   name: DeepONet
-  lag: 99
+  lag: 3
   branch_layers: 3
   trunk_layers: 4
   neurons: 128
@@ -11,4 +11,4 @@ model:
   initialization: "Glorot normal"
   optimizer: "adam"
   learning_rate: 0.001
-  epochs: 10000
+  epochs: 1000

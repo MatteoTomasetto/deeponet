@@ -7,21 +7,25 @@ model:
   seed: 0
   n_trials: 100
   method: 'constant'
-  epochs: 100000
+  epochs: 10000
   lag: 0
 hyperparameters: # Specify hyperparameters and ranges
+  lag:
+    type: randint
+    lower_bound: 1
+    upper_bound: 50
   branch_layers:
     type: randint
     lower_bound: 1
-    upper_bound: 10
+    upper_bound: 5
   trunk_layers:
     type: randint
     lower_bound: 1
-    upper_bound: 10
+    upper_bound: 5
   neurons:
     type: randint
     lower_bound: 1
-    upper_bound: 1024
+    upper_bound: 512
   activation:
     type: choice
     choices: ["tanh", "relu", "elu"]
@@ -33,5 +37,5 @@ hyperparameters: # Specify hyperparameters and ranges
     choices: ["adam", "L-BFGS"]
   learning_rate:
     type: loguniform
-    lower_bound: 1.e-5
+    lower_bound: 1.e-4
     upper_bound: 1.e-1
