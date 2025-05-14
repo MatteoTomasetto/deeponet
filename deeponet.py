@@ -153,14 +153,12 @@ class DeepONet:
         data = self.get_data()
         deeponet = self.get_model()
         
-        output_transform = lambda inputs, outputs: outputs * torch.from_numpy(np.sqrt(self.scaler.var_.astype(np.float32)) + self.scaler.mean_.astype(np.float32))
+        output_transform = lambda inputs, outputs: outputs * torch.from_numpy(np.sqrt(self.scaler.var_.astype(np.float32)) + self.scaler.mean_.astype(np.float32)).to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
         deeponet.apply_output_transform(output_transform)
-        
-        early_stopping = dde.callbacks.EarlyStopping(patience = 100, min_delta = 1e-6)
-        
+                
         model = dde.Model(data, deeponet)
         model.compile(self.optimizer, lr = self.learning_rate, metrics = ["mean l2 relative error"])
-        _, _ = model.train(iterations = self.epochs, callbacks=[early_stopping])
+        _, _ = model.train(iterations = self.epochs)
         return model
 
 
@@ -183,8 +181,5 @@ class DeepONet:
                 init_data = np.concatenate((init_data[self.n:], predictions[i,:]))
         else:
             predictions = model.predict((self.init_data.astype(np.float32), trunk_input_data))
-
-        predictions[np.isnan(predictions)] = 10000.0
-        np.clip(predictions, -10000, 10000)
-
+            
         return predictions

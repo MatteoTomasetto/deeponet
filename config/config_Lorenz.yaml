@@ -12,4 +12,3 @@ model:
   optimizer: "adam"
   learning_rate: 0.001
   epochs: 10000
-  batch_size: 32

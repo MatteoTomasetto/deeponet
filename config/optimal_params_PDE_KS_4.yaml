@@ -1,0 +1,17 @@
+dataset:
+  name: PDE_KS
+  pair_id:
+  - 4
+model:
+  activation: tanh
+  branch_layers: 4
+  epochs: 10000
+  initialization: He normal
+  lag: 35
+  learning_rate: 0.00020415951914959152
+  method: constant
+  name: DeepONet
+  neurons: 66
+  optimizer: L-BFGS
+  seed: 0
+  trunk_layers: 1
