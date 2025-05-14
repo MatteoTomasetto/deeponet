@@ -1,0 +1,17 @@
+dataset:
+  name: PDE_KS
+  pair_id:
+  - 8
+model:
+  activation: tanh
+  branch_layers: 2
+  epochs: 10000
+  initialization: Glorot normal
+  lag: 13
+  learning_rate: 0.0035794120861040546
+  method: constant
+  name: DeepONet
+  neurons: 69
+  optimizer: adam
+  seed: 0
+  trunk_layers: 3

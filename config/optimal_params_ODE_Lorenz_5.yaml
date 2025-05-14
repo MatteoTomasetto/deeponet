@@ -1,0 +1,17 @@
+dataset:
+  name: ODE_Lorenz
+  pair_id:
+  - 5
+model:
+  activation: tanh
+  branch_layers: 3
+  epochs: 10000
+  initialization: Glorot normal
+  lag: 24
+  learning_rate: 0.039383864185301785
+  method: constant
+  name: DeepONet
+  neurons: 219
+  optimizer: adam
+  seed: 0
+  trunk_layers: 3
