@@ -40,7 +40,7 @@ The configuration files in the `config` folder specify the hyperparameters for r
 ```yaml
 dataset:
   name: <dataset_name>  # Test case (e.g. PDE_KS, ODE_Lorenz)
-  pair_id: 'all'        # Which sub-datasets to consider
+  pair_id: <pair_id>    # Which sub-datasets to consider (e.g. [1, 2, 3], 'all')
 model:
   name: DeepONet
   lag: <lag_parameter>                 # Number of past values to consider in the branch net input
