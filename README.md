@@ -29,12 +29,14 @@ where $k$ is the lag parameter and $\xi$ are the spatial coordinates where to pr
 - `run.py`: Batch runner script for running the model across multiple sub-datasets in the [CTF-for-Science](https://github.com/CTF-for-Science) framework.
 - `run_opt.py`: Batch runner script for running the model across multiple sub-datasets with hyperparameter tuning in the [CTF-for-Science](https://github.com/CTF-for-Science) framework.
 - `optimize_parameters.py`: Script for tuning the model hyperparameters
-- `config/config_KS.yaml`: Configuration file for running the model on the `Kuramoto-Sivashinsky` test cases for all sub-datasets.
 - `config/config_Lorenz.yaml`: Configuration file for running the model on the `Lorenz` test cases for all sub-datasets.
-- `tuning_config/config_KS.yaml`: Configuration file for tuning the model hyperparameters on the `Kuramoto-Sivashinsky` test cases for all sub-datasets.
-- `tuning_config/config_Lorenz.yaml`: Configuration file for tuning the model hyperparameters on the `Lorenz` test cases for all sub-datasets.
+- `config/config_KS.yaml`: Configuration file for running the model on the `Kuramoto-Sivashinsky` test cases for all sub-datasets.
+- `config/optimal_config_Lorenz_*.yaml`: Configuration file for running the model on the `Lorenz` test cases with optimal hyperparameters for every sub-datasets.
+- `config/optimal_config_KS_*.yaml`: Configuration file for running the model on the `Kuramoto-Sivashinsky` test cases with optimal hyperparameters for every sub-datasets.
+- `tuning_config/config_Lorenz_*.yaml`: Configuration file for tuning the model hyperparameters on the `Lorenz` test cases for every sub-datasets.
+- `tuning_config/config_KS_*.yaml`: Configuration file for tuning the model hyperparameters on the `Kuramoto-Sivashinsky` test cases for every sub-datasets.
  
-The configuration files specify the hyperparameters for running the model with the following structure
+The configuration files in the `config` folder specify the hyperparameters for running the model with the following structure
 ```yaml
 dataset:
   name: <dataset_name>  # Test case (e.g. PDE_KS, ODE_Lorenz)
@@ -53,6 +55,7 @@ model:
   epochs: <epochs>                     # Number of epochs for training
   batch_size: <batch_size>             # Batch size for training
 ```
+
 The configuration files in the `tuning_config` folder specify, instead, the possible hyperparameter values to explore while tuning them. 
 
 ## Usage
