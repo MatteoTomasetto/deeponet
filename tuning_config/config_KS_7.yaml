@@ -12,7 +12,7 @@ hyperparameters: # Specify hyperparameters and ranges
   lag:
     type: randint
     lower_bound: 1
-    upper_bound: 50
+    upper_bound: 99
   branch_layers:
     type: randint
     lower_bound: 1

@@ -1,17 +1,16 @@
 dataset:
-  name: PDE_KS
-  pair_id:
-  - 9
+  name: ODE_Lorenz
+  pair_id: [1]
 model:
   activation: tanh
-  branch_layers: 2
+  branch_layers: 4
   epochs: 10000
   initialization: He normal
-  lag: 27
-  learning_rate: 0.0032958541236063933
+  lag: 29
+  learning_rate: 0.03456282864713975
   method: constant
   name: DeepONet
-  neurons: 124
+  neurons: 441
   optimizer: L-BFGS
   seed: 0
   trunk_layers: 3

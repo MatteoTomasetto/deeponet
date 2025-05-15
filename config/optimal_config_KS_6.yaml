@@ -1,7 +1,6 @@
 dataset:
   name: PDE_KS
-  pair_id:
-  - 6
+  pair_id: [6]
 model:
   activation: tanh
   branch_layers: 3

@@ -1,7 +1,6 @@
 dataset:
   name: ODE_Lorenz
-  pair_id:
-  - 2
+  pair_id: [2]
 model:
   activation: relu
   branch_layers: 1

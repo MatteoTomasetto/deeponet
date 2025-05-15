@@ -5,15 +5,11 @@ model:
   name: DeepONet
   train_split: 0.8
   seed: 0
-  n_trials: 1
+  n_trials: 100
   method: 'constant'
   epochs: 10000
   lag: 0
 hyperparameters: # Specify hyperparameters and ranges
-  lag:
-    type: randint
-    lower_bound: 1
-    upper_bound: 50
   branch_layers:
     type: randint
     lower_bound: 1

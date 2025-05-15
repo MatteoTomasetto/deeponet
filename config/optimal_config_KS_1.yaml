@@ -1,11 +1,10 @@
 dataset:
   name: PDE_KS
-  pair_id:
-  - 1
+  pair_id: [1]
 model:
   activation: tanh
   branch_layers: 2
-  epochs: 100000
+  epochs: 10000
   initialization: Glorot normal
   lag: 28
   learning_rate: 0.0010178461117643486
