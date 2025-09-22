@@ -1,6 +1,7 @@
 from typing import List, Dict, Optional
 import numpy as np
 import torch
+import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import deepxde as dde
 dde.backend.set_default_backend("pytorch")
@@ -82,7 +83,13 @@ class DeepONet:
         self.train_data = train_data
         self.m = train_data[0].shape[0]
         self.n = train_data[0].shape[1]
-        self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).astype(np.float32) if config['dataset']['name'] == 'PDE_KS' else np.arange(0, self.n).astype(np.float32) 
+        if config['dataset']['name'] == 'PDE_KS':
+            self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).reshape(-1,1).astype(np.float32)
+        elif config['dataset']['name'] == 'seismo':
+            sensors_df = pd.read_csv("/home/matte/Desktop/PhD/Code/CTF-for-Science/data/seismo/sensor_locations.csv")
+            self.x = np.column_stack((sensors_df['latitude'].values, sensors_df['longitude'].values)).astype(np.float32)
+        else:
+            self.x = np.arange(0, self.n).reshape(-1,1).astype(np.float32) 
 
         if self.lag > self.m:
             raise ValueError(f"Select a 'lag' parameter smaller than the number of training timesteps ({self.m}).")
@@ -96,7 +103,7 @@ class DeepONet:
         
         self.branch_input_dimension = max(self.lag, 1) * self.n
         self.branch = [self.branch_input_dimension] + [self.branch_neurons] * self.branch_layers
-        self.trunk_input_dimension = 1 if self.delta_t is None else 2
+        self.trunk_input_dimension = self.x.shape[1] if self.delta_t is None else self.x.shape[1] + 1
         self.trunk = [self.trunk_input_dimension] + [self.trunk_neurons] * self.trunk_layers
 
     def get_data(self) -> dde.data.triple.TripleCartesianProd:
@@ -109,7 +116,7 @@ class DeepONet:
             dde.data.triple.TripleCartesianProd: data object for training the model.
         """
 
-        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+        trunk_input_data = self.x if self.delta_t is None else np.column_stack((self.x, np.full(self.x.shape[0], self.delta_t))).astype(np.float32)
 
         branch_input_data = np.zeros((len(self.train_data), (self.m - self.lag), self.branch_input_dimension), dtype = np.float32)
         for i in range(len(self.train_data)):
@@ -172,7 +179,7 @@ class DeepONet:
 
         model = self.train()
         predictions = np.zeros((self.prediction_horizon_steps, self.n), dtype = np.float32)      
-        trunk_input_data = self.x.reshape(-1, 1) if self.delta_t is None else np.column_stack((self.x, np.full_like(self.x, self.delta_t)))
+        trunk_input_data = self.x if self.delta_t is None else np.column_stack((self.x, np.full(self.x.shape[0], self.delta_t))).astype(np.float32)
 
         if self.lag > 0:
             init_data = self.init_data[-self.lag:,:].ravel().astype(np.float32)
