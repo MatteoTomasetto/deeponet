@@ -87,7 +87,7 @@ class DeepONet:
             self.x = 32.0 * np.pi / self.n * np.arange(0, self.n).reshape(-1,1).astype(np.float32)
         elif config['dataset']['name'] == 'seismo':
             sensors_df = pd.read_csv("/home/matte/Desktop/PhD/Code/CTF-for-Science/data/seismo/sensor_locations.csv")
-            self.x = np.column_stack((sensors_df['latitude'].values, sensors_df['longitude'].values)).astype(np.float32)
+            self.x = np.column_stack((sensors_df['x'].values, sensors_df['y'].values, sensors_df['z'].values)).astype(np.float32)
         else:
             self.x = np.arange(0, self.n).reshape(-1,1).astype(np.float32) 
 

@@ -3,5 +3,6 @@
 # conda install -c conda-forge pytorch deepxde
 numpy
 torch
+pandas
 sklearn
 deepxde

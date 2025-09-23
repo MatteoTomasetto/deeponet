@@ -3,12 +3,12 @@ dataset:
   pair_id: 'all'
 model:
   name: DeepONet
-  lag: 20
+  lag: 50
   branch_layers: 3
   trunk_layers: 3
   neurons: 100
   activation: tanh
   initialization: Glorot normal
   optimizer: adam
-  epochs: 100
+  epochs: 500
   learning_rate: 0.001
